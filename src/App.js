@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Card from "./components/Card";
+import Searchbar from "./components/Searchbar";
 
 function App() {
+  
+  const jsonData = [
+    "first entry",
+    "second entry",
+    "third entry",
+    "fourth entry",
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <p className="w-75 mx-auto fs-3">To-Do</p>
+      <div className="card-container w-75 mx-auto">
+        {
+          jsonData.map((i,index) => {
+          return <Card key={index} i={i}/>
+        })}
+      </div>
+      <div>
+        <Searchbar/>
+      </div>
+    </>
   );
 }
 
