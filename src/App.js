@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./App.css";
-import Card from "./components/Card";
+import Todo from "./components/Todo";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [inputText, setinputText] = useState("");
-  const [editFlag, setEditFlag] = useState(true);
+  const [flag, setFlag] = useState(false);
   const [todoId, setTodoId] = useState("");
   const [inputBorder, setInputBorder] = useState("");
 
@@ -25,8 +25,8 @@ function App() {
     setTodoList(updatedTodoList);
   };
 
-  const updateEditFlag = (flagValue) => {
-    setEditFlag(flagValue);
+  const updateFlag = (flagValue) => {
+    setFlag(flagValue);
   };
 
   const getTodoId = (todo) => {
@@ -54,17 +54,32 @@ function App() {
     setTodoList(updatedTodoList);
   };
 
+  const handleSubmit = ()=>{
+    if (inputText.trim() !== "") {
+      if (flag === false) {
+        createTodo();
+        setinputText("");
+      } else {
+        editItem(todoId);
+        setinputText("");
+        setFlag(false);
+      }
+    } else {
+      setInputBorder("border-danger");
+    }
+  }
+
   return (
     <div className="container">
       <p className="mx-auto fs-2 fw-bolder">To-Do App</p>
       <div className="card-container mx-auto ">
         {todoList.map((todo, i) => {
           return (
-            <Card
+            <Todo
               key={i}
               todo={todo}
               deleteTodo={deleteTodo}
-              updateEditFlag={updateEditFlag}
+              updateFlag={updateFlag}
               getTodoId={getTodoId}
               handleCompleteTag={handleCompleteTag}
             />
@@ -88,18 +103,7 @@ function App() {
             type="button"
             className="submit-btn btn btn-light bg-light p-1 d-flex justify-content-center align-items-center border-dark"
             onClick={() => {
-              if (inputText.trim() !== "") {
-                if (editFlag === true) {
-                  createTodo();
-                  setinputText("");
-                } else {
-                  editItem(todoId);
-                  setinputText("");
-                  setEditFlag(true);
-                }
-              } else {
-                setInputBorder("border-danger");
-              }
+              handleSubmit()
             }}
           >
             submit

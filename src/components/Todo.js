@@ -4,7 +4,7 @@ import Badge from "react-bootstrap/Badge";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 
-function Card({ todo, deleteTodo, updateEditFlag, getTodoId ,handleCompleteTag}) {
+function Todo({ todo, deleteTodo, updateFlag, getTodoId ,handleCompleteTag}) {
   return (
     <>
       <li className="d-flex justify-content-between align-items-center p-2 border">
@@ -32,7 +32,7 @@ function Card({ todo, deleteTodo, updateEditFlag, getTodoId ,handleCompleteTag})
             className="fs-5"
             onClick={() => {
               getTodoId(todo);
-              updateEditFlag(false);
+              updateFlag(true);
             }}
           />
         </div>
@@ -41,4 +41,4 @@ function Card({ todo, deleteTodo, updateEditFlag, getTodoId ,handleCompleteTag})
   );
 }
 
-export default Card;
+export default Todo;
