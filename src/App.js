@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Todo from "./components/Todo";
 import "./App.css";
+import Confirmation from "./components/Confirmation";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -8,6 +9,8 @@ function App() {
   const [flag, setFlag] = useState(false);
   const [todoId, setTodoId] = useState("");
   const [inputBorder, setInputBorder] = useState("");
+  const [displayPopup, setDisplayPopup] = useState(false);
+  const [confirmationId, setConfirmationId] = useState("");
 
   const createTodo = () => {
     const todaData = {
@@ -60,19 +63,26 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="container position-relative">
+      <Confirmation
+        setDisplayPopup={setDisplayPopup}
+        displayPopup={displayPopup}
+        deleteTodo={deleteTodo}
+        confirmationId={confirmationId}
+      />
       <p className="mx-auto fs-2 fw-bolder">To-Do App</p>
-      <div className="card-container mx-auto ">
+      <div className="card-container mx-auto">
         {todoList.map((todo, i) => {
           return (
             <Todo
               key={i}
               todo={todo}
-              deleteTodo={deleteTodo}
+              setconfirmationId={setConfirmationId}
               handleCompleteTag={handleCompleteTag}
               setFlag={setFlag}
               setTodoId={setTodoId}
               setinputText={setinputText}
+              setDisplayPopup={setDisplayPopup}
             />
           );
         })}

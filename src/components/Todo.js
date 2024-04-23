@@ -6,17 +6,19 @@ import "../App.css";
 
 function Todo({
   todo,
-  deleteTodo,
+  setconfirmationId,
   setFlag,
   setTodoId,
   setinputText,
   handleCompleteTag,
+  setDisplayPopup,
 }) {
   return (
     <>
       <li className="d-flex justify-content-between align-items-center p-2 border">
         <div className="d-flex justify-content-center gap-2 align-items-center">
           <input
+            role="button"
             type="checkBox"
             checked={todo.showCompletedBadge}
             onChange={() => {
@@ -33,12 +35,15 @@ function Todo({
             complete
           </Badge>
           <MdDeleteOutline
+            role="button"
             className="fs-5"
             onClick={() => {
-              deleteTodo(todo.id);
+              setconfirmationId(todo.id);
+              setDisplayPopup(true);
             }}
           />
           <FaRegEdit
+            role="button"
             className="fs-5"
             onClick={() => {
               setTodoId(todo.id);
