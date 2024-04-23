@@ -3,49 +3,70 @@ import "./App.css";
 import Card from "./components/Card";
 
 function App() {
-  const [inputList, setInputList] = useState([]);
+  const [todoList, setTodoList] = useState([]);
   const [inputText, setinputText] = useState("");
-  const [flag, setFlag] = useState(true);
-  const [index, setIndex] = useState("");
+  const [editFlag, setEditFlag] = useState(true);
+  const [todoId, setTodoId] = useState("");
+  const [inputBorder, setInputBorder] = useState("");
 
-  let addList = (listItem) => {
-    setInputList([...inputList, listItem]);
+  const createTodo = () => {
+    const todaData = {
+      text: inputText,
+      id: Date.now(),
+      todoToggle: false,
+    };
+    setTodoList([...todoList, todaData]);
   };
 
-  const deleteItem = (index) => {
-    console.log(index);
-    inputList.splice(index, 1);
-    setInputList([...inputList]);
+  const deleteTodo = (todoId) => {
+    const updatedTodoList = todoList.filter((todo) => {
+      return todo.id !== todoId;
+    });
+    setTodoList(updatedTodoList);
   };
 
-  const updateFlag = (flagValue) => {
-    setFlag(flagValue);
+  const updateEditFlag = (flagValue) => {
+    setEditFlag(flagValue);
   };
 
-  const getIndex = (i) => {
-    setinputText(inputList[i]);
-    setIndex(i);
+  const getTodoId = (todo) => {
+    setinputText(todo.text);
+    setTodoId(todo.id);
   };
 
-  let editItem = (index, newValue) => {
-    const arr = [...inputList];
-    arr[index] = newValue;
-    setInputList(arr);
+  const editItem = (todoId) => {
+    todoList.map((todo) => {
+      if (todo.id === todoId) {
+        todo.text = inputText;
+      }
+      return todo;
+    });
+  };
+
+  const handleCompleteTag = (todoId) => {
+    const updatedTodoList = todoList.map((todo) => {
+      if (todo.id === todoId) {
+        return { ...todo, todoToggle: !todo.todoToggle };
+      } else {
+        return todo;
+      }
+    });
+    setTodoList(updatedTodoList);
   };
 
   return (
     <div className="container">
       <p className="mx-auto fs-2 fw-bolder">To-Do App</p>
       <div className="card-container mx-auto ">
-        {inputList.map((item, i) => {
+        {todoList.map((todo, i) => {
           return (
             <Card
               key={i}
-              item={item}
-              index={i}
-              deleteItem={deleteItem}
-              updateFlag={updateFlag}
-              getIndex={getIndex}
+              todo={todo}
+              deleteTodo={deleteTodo}
+              updateEditFlag={updateEditFlag}
+              getTodoId={getTodoId}
+              handleCompleteTag={handleCompleteTag}
             />
           );
         })}
@@ -55,10 +76,11 @@ function App() {
           <div className="fs-5">To-do</div>
           <input
             type="text"
-            className="p-1"
+            className={`p-1 border ${inputBorder}`}
             placeholder="Your Todo"
             onChange={(e) => {
               setinputText(e.target.value);
+              setInputBorder("");
             }}
             value={inputText}
           ></input>
@@ -67,16 +89,16 @@ function App() {
             className="submit-btn btn btn-light bg-light p-1 d-flex justify-content-center align-items-center border-dark"
             onClick={() => {
               if (inputText.trim() !== "") {
-                if (flag === true) {
-                  addList(inputText);
+                if (editFlag === true) {
+                  createTodo();
                   setinputText("");
                 } else {
-                  editItem(index, inputText);
+                  editItem(todoId);
                   setinputText("");
-                  setFlag(true);
+                  setEditFlag(true);
                 }
               } else {
-                console.log("the field is emepty");
+                setInputBorder("border-danger");
               }
             }}
           >
