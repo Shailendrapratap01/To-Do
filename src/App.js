@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./App.css";
 import Todo from "./components/Todo";
+import "./App.css";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -13,7 +13,7 @@ function App() {
     const todaData = {
       text: inputText,
       id: Date.now(),
-      todoToggle: false,
+      showCompletedBadge: false,
     };
     setTodoList([...todoList, todaData]);
   };
@@ -23,15 +23,6 @@ function App() {
       return todo.id !== todoId;
     });
     setTodoList(updatedTodoList);
-  };
-
-  const updateFlag = (flagValue) => {
-    setFlag(flagValue);
-  };
-
-  const getTodoId = (todo) => {
-    setinputText(todo.text);
-    setTodoId(todo.id);
   };
 
   const editItem = (todoId) => {
@@ -46,7 +37,7 @@ function App() {
   const handleCompleteTag = (todoId) => {
     const updatedTodoList = todoList.map((todo) => {
       if (todo.id === todoId) {
-        return { ...todo, todoToggle: !todo.todoToggle };
+        return { ...todo, showCompletedBadge: !todo.showCompletedBadge };
       } else {
         return todo;
       }
@@ -54,20 +45,19 @@ function App() {
     setTodoList(updatedTodoList);
   };
 
-  const handleSubmit = ()=>{
+  const handleSubmit = () => {
     if (inputText.trim() !== "") {
       if (flag === false) {
         createTodo();
-        setinputText("");
       } else {
         editItem(todoId);
-        setinputText("");
         setFlag(false);
       }
+      setinputText("");
     } else {
       setInputBorder("border-danger");
     }
-  }
+  };
 
   return (
     <div className="container">
@@ -79,9 +69,10 @@ function App() {
               key={i}
               todo={todo}
               deleteTodo={deleteTodo}
-              updateFlag={updateFlag}
-              getTodoId={getTodoId}
               handleCompleteTag={handleCompleteTag}
+              setFlag={setFlag}
+              setTodoId={setTodoId}
+              setinputText={setinputText}
             />
           );
         })}
@@ -103,7 +94,7 @@ function App() {
             type="button"
             className="submit-btn btn btn-light bg-light p-1 d-flex justify-content-center align-items-center border-dark"
             onClick={() => {
-              handleSubmit()
+              handleSubmit();
             }}
           >
             submit
