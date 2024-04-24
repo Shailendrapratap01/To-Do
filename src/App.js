@@ -6,11 +6,10 @@ import Confirmation from "./components/Confirmation";
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [inputText, setinputText] = useState("");
-  const [flag, setFlag] = useState(false);
+  const [createOrUpdateTodoFlag, setCreateOrUpdateTodoFlag] = useState(false);
   const [todoId, setTodoId] = useState("");
-  const [inputBorder, setInputBorder] = useState("");
+  const [inputError, setInputError] = useState(false);
   const [displayPopup, setDisplayPopup] = useState(false);
-  const [confirmationId, setConfirmationId] = useState("");
 
   const createTodo = () => {
     const todaData = {
@@ -50,25 +49,25 @@ function App() {
 
   const handleSubmit = () => {
     if (inputText.trim() !== "") {
-      if (flag === false) {
+      if (createOrUpdateTodoFlag === false) {
         createTodo();
       } else {
         editItem(todoId);
-        setFlag(false);
+        setCreateOrUpdateTodoFlag(false);
       }
       setinputText("");
     } else {
-      setInputBorder("border-danger");
+      setInputError(true);
     }
   };
 
   return (
-    <div className="container position-relative">
+    <div className="container py-4">
       <Confirmation
         setDisplayPopup={setDisplayPopup}
         displayPopup={displayPopup}
         deleteTodo={deleteTodo}
-        confirmationId={confirmationId}
+        todoId={todoId}
       />
       <p className="mx-auto fs-2 fw-bolder">To-Do App</p>
       <div className="card-container mx-auto">
@@ -77,9 +76,8 @@ function App() {
             <Todo
               key={i}
               todo={todo}
-              setconfirmationId={setConfirmationId}
               handleCompleteTag={handleCompleteTag}
-              setFlag={setFlag}
+              setCreateOrUpdateTodoFlag={setCreateOrUpdateTodoFlag}
               setTodoId={setTodoId}
               setinputText={setinputText}
               setDisplayPopup={setDisplayPopup}
@@ -92,11 +90,11 @@ function App() {
           <div className="fs-5">To-do</div>
           <input
             type="text"
-            className={`p-1 border ${inputBorder}`}
+            className={`p-1 border ${inputError ? "border-danger" : ""}`}
             placeholder="Your Todo"
             onChange={(e) => {
               setinputText(e.target.value);
-              setInputBorder("");
+              setInputError(false);
             }}
             value={inputText}
           ></input>

@@ -1,12 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-function Confirmation({
-  setDisplayPopup,
-  displayPopup,
-  deleteTodo,
-  confirmationId,
-}) {
+function Confirmation({ setDisplayPopup, displayPopup, deleteTodo, todoId }) {
   return (
     <Modal show={displayPopup} centered>
       <Modal.Header>
@@ -20,7 +15,7 @@ function Confirmation({
           type="button"
           className="btn btn-danger"
           onClick={() => {
-            deleteTodo(confirmationId);
+            deleteTodo(todoId);
             setDisplayPopup(false);
           }}
         >
