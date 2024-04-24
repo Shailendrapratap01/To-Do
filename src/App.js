@@ -6,7 +6,7 @@ import Confirmation from "./components/Confirmation";
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [inputText, setinputText] = useState("");
-  const [createOrUpdateTodoFlag, setCreateOrUpdateTodoFlag] = useState(false);
+  const [editTodo, setEditTodo] = useState(false);
   const [todoId, setTodoId] = useState("");
   const [inputError, setInputError] = useState(false);
   const [displayPopup, setDisplayPopup] = useState(false);
@@ -49,11 +49,11 @@ function App() {
 
   const handleSubmit = () => {
     if (inputText.trim() !== "") {
-      if (createOrUpdateTodoFlag === false) {
+      if (editTodo === false) {
         createTodo();
       } else {
         editItem(todoId);
-        setCreateOrUpdateTodoFlag(false);
+        setEditTodo(false)
       }
       setinputText("");
     } else {
@@ -77,7 +77,7 @@ function App() {
               key={i}
               todo={todo}
               handleCompleteTag={handleCompleteTag}
-              setCreateOrUpdateTodoFlag={setCreateOrUpdateTodoFlag}
+              setEditTodo={setEditTodo}
               setTodoId={setTodoId}
               setinputText={setinputText}
               setDisplayPopup={setDisplayPopup}

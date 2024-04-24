@@ -6,7 +6,7 @@ import "../App.css";
 
 function Todo({
   todo,
-  setCreateOrUpdateTodoFlag,
+  setEditTodo,
   setTodoId,
   setinputText,
   handleCompleteTag,
@@ -45,7 +45,7 @@ function Todo({
           className="fs-5"
           onClick={() => {
             setTodoId(todo.id);
-            setCreateOrUpdateTodoFlag(true);
+            setEditTodo(true)
             setinputText(todo.text);
           }}
         />
